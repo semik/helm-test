@@ -13,4 +13,4 @@
           - run: ls -la
           - run: pwd
           - run: helm version
-          - run: helm template --values=values.yaml oci://harbor.3key.company/czertainly-helm/czertainly
+          - run: helm template --values=values.yaml --version=2.13.1 oci://harbor.3key.company/czertainly-helm/czertainly
