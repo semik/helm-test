@@ -22,6 +22,10 @@
             git clone https://${{ secrets.PAT }}@github.com/semik/push-test.git
           env:
             GITHUB_TOKEN: ${{ secrets.PAT }}
+
         - run: |
             helm template --values=values.yaml --version=2.13.1 oci://harbor.3key.company/czertainly-helm/czertainly > push-test/czertainly.yaml
+            cd push-test
+            git add -A
+            git commit -m "automatic rebuild from repo XYZ"
             ls -l push-test
