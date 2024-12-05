@@ -21,11 +21,11 @@
             git config --global user.name "Jan Tomášek"
             git clone https://${{ secrets.PAT }}@github.com/semik/push-test.git
 
-
-        - run: |
+        - name: generate manifests and push it into repo
+          run: |
             helm template --values=values.yaml --version=2.13.1 oci://harbor.3key.company/czertainly-helm/czertainly > push-test/czertainly.yaml
             cd push-test
             git add -A
-            git commit -m "automatic rebuild from repo XYZ"
+            git commit -m "automatic rebuild from repo ${{ github.action_repository }}"
             git push
             ls -l .
