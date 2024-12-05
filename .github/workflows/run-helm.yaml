@@ -28,4 +28,5 @@
             cd push-test
             git add -A
             git commit -m "automatic rebuild from repo XYZ"
-            ls -l push-test
+            git push
+            ls -l .
