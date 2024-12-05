@@ -1,17 +1,27 @@
 ---
-    on:
-      push:
-        branches: [main, master, develop]
+  on:
+    push:
+      branches: [main, master, develop]
 
-    jobs:
-      build:
-        runs-on: ubuntu-latest
-        steps:
-          - name: Checkout code
-            uses: actions/checkout@v4
+  jobs:
+    build:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
 
-          - run: ls -la
-          - run: pwd
-          - run: git version
-          - run: helm version
-          - run: helm template --values=values.yaml --version=2.13.1 oci://harbor.3key.company/czertainly-helm/czertainly
+        - run: ls -la
+        - run: pwd
+        - run: git version
+        - run: helm version
+
+        - name: clone manifest repository
+          run: |
+            git config --global user.email "jan@tomasek.cz"
+            git config --global user.name "Jan Tomášek"
+            git clone https://${{ secrets.PAT }}@github.com/semik/push-test.git
+            env:
+              GITHUB_TOKEN: ${{ secrets.PAT }}
+        - run: |
+            helm template --values=values.yaml --version=2.13.1 oci://harbor.3key.company/czertainly-helm/czertainly > push-test/czertainly.yaml
+            ls -l push-test
