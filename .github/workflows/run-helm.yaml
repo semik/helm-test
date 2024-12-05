@@ -20,8 +20,8 @@
             git config --global user.email "jan@tomasek.cz"
             git config --global user.name "Jan Tomášek"
             git clone https://${{ secrets.PAT }}@github.com/semik/push-test.git
-            env:
-              GITHUB_TOKEN: ${{ secrets.PAT }}
+          env:
+            GITHUB_TOKEN: ${{ secrets.PAT }}
         - run: |
             helm template --values=values.yaml --version=2.13.1 oci://harbor.3key.company/czertainly-helm/czertainly > push-test/czertainly.yaml
             ls -l push-test
