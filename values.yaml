@@ -155,13 +155,13 @@ ejbcaNgConnector:
   enabled: true
 
 pyAdcsConnector:
-  enabled: true
+  enabled: false
 
 x509ComplianceProvider:
   enabled: true
 
 cryptosenseDiscoveryProvider:
-  enabled: true
+  enabled: false
 
 networkDiscoveryProvider:
   enabled: true
