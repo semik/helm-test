@@ -136,8 +136,8 @@ keycloakInternal:
    level: INFO,org.keycloak.saml:DEBUG,org.keycloak.broker.saml:DEBUG
 
 apiGateway:
-  hostAliases:
-    resolveInternalKeycloak: true
+#  hostAliases:
+#    resolveInternalKeycloak: true
   trustedIps: "0.0.0.0/0,::/0"
 
 hostName: "semik66.3key.company"
