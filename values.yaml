@@ -1,7 +1,7 @@
 ---
 global:
   database:
-    host: "lab06.3key.company"
+    host: "lab09.3key.company"
     name: "example_czertainly"
     username: "example_czertainly"
     password: "beziliskaktaboru06122024"
