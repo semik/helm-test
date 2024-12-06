@@ -118,7 +118,7 @@ global:
     loging:
       level: DEBUG
 
-  hostName: "semik6.3key.company"
+  hostName: "semik66.3key.company"
   admin:
     username: "admin"
     password: "newgenerationtrustcare"
@@ -140,7 +140,7 @@ apiGateway:
     resolveInternalKeycloak: true
   trustedIps: "0.0.0.0/0,::/0"
 
-hostName: "czertainly.doma.tomasek.cz"
+hostName: "semik66.3key.company"
 ingress:
   enabled: true
   certificate:
@@ -152,7 +152,7 @@ commonCredentialProvider:
   enabled: true
 
 ejbcaNgConnector:
-  enabled: true
+  enabled: false
 
 pyAdcsConnector:
   enabled: false
