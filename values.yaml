@@ -1,10 +1,10 @@
 ---
 global:
   database:
-    host: "postgresql.example.com"
-    name: "czertainlydb"
-    username: "czertainlyuser"
-    password: "example"
+    host: "lab07.3key.company"
+    name: "example_czertainly"
+    username: "example_czertainly"
+    password: "beziliskaktaboru06122024"
   trusted:
     certificates: |
       # CN = CZERTAINLY Dummy Root CA
@@ -118,7 +118,7 @@ global:
     loging:
       level: DEBUG
 
-  hostName: "czertainly.example.com"
+  hostName: "semik6.3key.company"
   admin:
     username: "admin"
     password: "newgenerationtrustcare"
