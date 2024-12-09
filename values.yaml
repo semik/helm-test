@@ -364,9 +364,8 @@ global:
 
 image:
   tag: develop-latest
-  logging:
-    audit:
-      enabled: true
+  registry: harbor.3key.company
+  repository: czertainly
 
 logging:
   audit:
@@ -375,6 +374,8 @@ logging:
 feAdministrator:
   image:
     tag: develop-latest
+    registry: harbor.3key.company
+    repository: czertainly
 
 messagingService:
   password: "your-messaging-password"
