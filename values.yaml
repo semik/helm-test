@@ -366,6 +366,7 @@ image:
   tag: develop-latest
   registry: harbor.3key.company
   repository: czertainly
+  imagePullPolicy: Always
 
 logging:
   audit:
@@ -376,6 +377,7 @@ feAdministrator:
     tag: develop-latest
     registry: harbor.3key.company
     repository: czertainly
+    imagePullPolicy: Always
 
 messagingService:
   password: "your-messaging-password"
