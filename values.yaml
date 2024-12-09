@@ -1,7 +1,5 @@
 ---
 global:
-  image:
-    tag: develop-latest
   messaging:
     password: 123
     secret: 123
@@ -131,6 +129,9 @@ global:
     name: "admin"
     surname: "admin"
     email: "jan@tomasek.cz"
+
+image:
+  tag: develop-latest
 
 messagingService:
   password: "your-messaging-password"
