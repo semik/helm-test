@@ -199,7 +199,7 @@ ejbcaNgConnector:
 pyAdcsConnector:
   image:
     tag: develop-latest
-  enabled: false
+  enabled: true
 
 
 x509ComplianceProvider:
