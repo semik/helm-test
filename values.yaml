@@ -429,7 +429,8 @@ ejbcaNgConnector:
   enabled: false
 
 pyAdcsConnector:
-#  image:
+  image:
+    registry: docker.io
 #    tag: develop-latest
 #    imagePullPolicy: Always
   enabled: true
