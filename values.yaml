@@ -1,5 +1,11 @@
 ---
 global:
+  image:
+    tag: develop-latest
+  messaging:
+    password: 123
+    secret: 123
+    remoteAccess: true
   database:
     host: "lab09.3key.company"
     name: "example_czertainly"
@@ -126,18 +132,36 @@ global:
     surname: "admin"
     email: "jan@tomasek.cz"
 
+messagingService:
+  password: "your-messaging-password"
+  messaging:
+    password: "your-messaging-password"
+    secrets:
+      password: "your-messaging-password"
+  image:
+    tag: develop-latest
+
+messaging:
+  password: "your-messaging-password"
+  secrets:
+    password: "your-messaging-password"
+
 authService:
   createUnknownUsers: "true"
   createUnknownRoles: "true"
 
 keycloakInternal:
+  image:
+    tag: develop-latest
   createDbSchema: false
   logging:
    level: INFO,org.keycloak.saml:DEBUG,org.keycloak.broker.saml:DEBUG
 
 apiGateway:
-#  hostAliases:
-#    resolveInternalKeycloak: true
+  image:
+    tag: develop-latest
+  hostAliases:
+    resolveInternalKeycloak: true
   trustedIps: "0.0.0.0/0,::/0"
 
 hostName: "semik66.3key.company"
@@ -145,7 +169,7 @@ hostName: "semik66.3key.company"
 letsEncrypt:
   email: info@3key.company
   environment: production
-  
+
 ingress:
   enabled: true
   certificate:
@@ -159,37 +183,58 @@ ingress:
     nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: 'true'
     nginx.ingress.kubernetes.io/proxy-buffer-size: 256k
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    
+
 registerConnectors: true
 
 commonCredentialProvider:
+  image:
+    tag: develop-latest
   enabled: true
 
 ejbcaNgConnector:
+  image:
+    tag: develop-latest
   enabled: false
 
 pyAdcsConnector:
-  enabled: false
+  image:
+    tag: develop-latest
+  enabled: true
+
 
 x509ComplianceProvider:
+  image:
+    tag: develop-latest
   enabled: true
 
 cryptosenseDiscoveryProvider:
-  enabled: false
+  image:
+    tag: develop-latest
+  enabled: true
 
 networkDiscoveryProvider:
+  image:
+    tag: develop-latest
   enabled: true
 
 keystoreEntityProvider:
+  image:
+    tag: develop-latest
   enabled: true
 
 softwareCryptographyProvider:
+  image:
+    tag: develop-latest
   enabled: true
 
 ctLogsDiscoveryProvider:
+  image:
+    tag: develop-latest
   enabled: true
   logging:
     level: "DEBUG"
 
 emailNotificationProvider:
+  image:
+    tag: develop-latest
   enabled: false
