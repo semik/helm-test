@@ -158,8 +158,6 @@ keycloakInternal:
    level: INFO,org.keycloak.saml:DEBUG,org.keycloak.broker.saml:DEBUG
 
 apiGateway:
-  image:
-    tag: develop-latest
   hostAliases:
     resolveInternalKeycloak: true
   trustedIps: "0.0.0.0/0,::/0"
