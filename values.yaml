@@ -364,8 +364,8 @@ global:
 
 image:
   tag: develop-latest
-  registry: harbor.3key.company
-  repository: czertainly
+#  registry: harbor.3key.company
+#  repository: czertainly
   imagePullPolicy: Always
 
 logging:
@@ -375,8 +375,8 @@ logging:
 feAdministrator:
   image:
     tag: develop-latest
-    registry: harbor.3key.company
-    repository: czertainly
+#    registry: harbor.3key.company
+#    repository: czertainly
     imagePullPolicy: Always
 
 messagingService:
