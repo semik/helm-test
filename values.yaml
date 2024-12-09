@@ -138,8 +138,6 @@ messagingService:
     password: "your-messaging-password"
     secrets:
       password: "your-messaging-password"
-  image:
-    tag: develop-latest
 
 messaging:
   password: "your-messaging-password"
