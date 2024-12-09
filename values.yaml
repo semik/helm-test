@@ -431,6 +431,7 @@ ejbcaNgConnector:
 pyAdcsConnector:
   image:
     tag: develop-latest
+    imagePullPolicy: Always
   enabled: true
 
 
