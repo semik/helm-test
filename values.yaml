@@ -470,7 +470,7 @@ keystoreEntityProvider:
 softwareCryptographyProvider:
   image:
     tag: develop-latest
-  enabled: true
+  enabled: false
 
 ctLogsDiscoveryProvider:
   image:
