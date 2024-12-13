@@ -392,6 +392,9 @@ messaging:
     password: "your-messaging-password"
 
 authService:
+  image:
+    tag: develop-latest
+    imagePullPolicy: Always
   createUnknownUsers: "true"
   createUnknownRoles: "true"
 
@@ -441,8 +444,8 @@ ejbcaNgConnector:
 
 pyAdcsConnector:
   image:
-    registry: docker.io
-#    tag: develop-latest
+#    registry: docker.io
+    tag: develop-latest
 #    imagePullPolicy: Always
   enabled: true
 
