@@ -366,13 +366,13 @@ image:
   # tag: develop-latest
   # registry: harbor.3key.company
   # repository: czertainly
-  digest: db785070703457dc5932962993c950545100e0a836382eba5eb7a5c390f4483c
+  digest: sha256:db785070703457dc5932962993c950545100e0a836382eba5eb7a5c390f4483c
   imagePullPolicy: Always
 
 authService:
   image:
     # tag: develop-latest
-    digest: b93298f10051b9ab00935d40b0569a3a9495d29d1e23a6f2b8396f29785d7219
+    digest: sha256:b93298f10051b9ab00935d40b0569a3a9495d29d1e23a6f2b8396f29785d7219
     imagePullPolicy: Always
   createUnknownUsers: "true"
   createUnknownRoles: "true"
