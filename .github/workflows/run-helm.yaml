@@ -15,7 +15,7 @@ jobs:
       - run: pwd
       - run: git version
       - run: helm version
-      - run: echo "ahoj: $GITHUB_REF_NAME"
+      - run: echo "Running on branch:" $GITHUB_REF_NAME
 
       - name: clone manifest repository
         run: |
