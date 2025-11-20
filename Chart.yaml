@@ -1,0 +1,9 @@
+---
+apiVersion: v2
+name: czertainly
+description: A demo Helm Chart for CZERTAINLY deployment
+version: 1.0.0
+dependencies:
+  - name: czertainly
+    version: 2.14.0
+    repository: "oci://harbor.3key.company/czertainly-helm"

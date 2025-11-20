@@ -33,7 +33,8 @@ jobs:
 
       - name: generate manifests and push it into repo
         run: |
-          helm template -n czertainly-example --values=values.yaml --version=0.0.0 oci://harbor.3key.company/czertainly-helm/czertainly > push-test/czertainly.yaml
+          helm dependency build
+          helm template -n czertainly-example --values=values-shared.yaml --values=values-"${GITHUB_REF_NAME}".yaml > push-test/manifests.yaml
           cd push-test
           git add -A
           if ! git diff --cached --quiet; then
