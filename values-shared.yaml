@@ -381,8 +381,6 @@ czertainly:
       resolveInternalKeycloak: true
     trustedIps: "0.0.0.0/0,::/0"
 
-  hostName: "just-example2.com"
-
   letsEncrypt:
     email: info@3key.company
     environment: production
