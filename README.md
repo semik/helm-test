@@ -5,7 +5,7 @@ This repository contains sereral branches:
 - `acceptance`: Acceptance environment configuration
 - `prod`: Production environment configuration
 
-It can be extended with 'feature' branches for developing new branches, however those are not part of this demo and when they will be added. Action will fail to execute because I've failed to setup proper permissions for that (and I'm unsure if customer want to have that).
+It can be extended with 'feature' branches for developing new branches, however those are not part of this demo.
 
 To change CZERTAINLY version, please edit `Chart.yaml` file in this repository with proper version and commit the change.
 

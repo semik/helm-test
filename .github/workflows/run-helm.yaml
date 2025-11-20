@@ -2,7 +2,7 @@ name: Deploy Helm Charts
 
 on:
   push:
-    branches: ['*']
+    branches: ['develop', 'acceptance', 'prod']
 
 jobs:
   build:
