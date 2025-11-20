@@ -1,0 +1,8 @@
+czertainly:
+  global:
+    database:
+      host: "prod-db.3key.company"
+      name: "prod-example_czertainly"
+      username: "prod-example_czertainly"
+      password: "heslo123"
+    hostName: "prod.3key.company"
