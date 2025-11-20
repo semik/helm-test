@@ -1,31 +1,33 @@
----
-  on:
-    push:
-      branches: [main, master, develop]
+name: Deploy Helm Charts
 
-  jobs:
-    build:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
+on:
+  push:
+    branches: ['*']
 
-        - run: ls -la
-        - run: pwd
-        - run: git version
-        - run: helm version
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-        - name: clone manifest repository
-          run: |
-            git config --global user.email "jan@tomasek.cz"
-            git config --global user.name "Jan Tomášek"
-            git clone https://${{ secrets.PAT }}@github.com/semik/push-test.git
+      - run: ls -la
+      - run: pwd
+      - run: git version
+      - run: helm version
+      - run: echo "ahoj: $GITHUB_REF_NAME"
 
-        - name: generate manifests and push it into repo
-          run: |
-            helm template -n czertainly-example --values=values.yaml --version=0.0.0 oci://harbor.3key.company/czertainly-helm/czertainly > push-test/czertainly.yaml
-            cd push-test
-            git add -A
-            git commit -m "automatic rebuild from repo ${{ github.repository }} ${{ github.sha }}"
-            git push
-            ls -l .
+      - name: clone manifest repository
+        run: |
+          git config --global user.email "jan@tomasek.cz"
+          git config --global user.name "Jan Tomášek"
+          git clone https://${{ secrets.PAT }}@github.com/semik/push-test.git
+
+      - name: generate manifests and push it into repo
+        run: |
+          helm template -n czertainly-example --values=values.yaml --version=0.0.0 oci://harbor.3key.company/czertainly-helm/czertainly > push-test/czertainly.yaml
+          cd push-test
+          git add -A
+          git commit -m "automatic rebuild from repo ${{ github.repository }} ${{ github.sha }}"
+          git push
+          ls -l .
