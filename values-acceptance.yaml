@@ -1,0 +1,8 @@
+czertainly:
+  global:
+    database:
+      host: "acceptance-db.3key.company"
+      name: "acceptance-example_czertainly"
+      username: "acceptance-example_czertainly"
+      password: "heslo123"
+    hostName: "acceptance.3key.company"
