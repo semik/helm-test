@@ -1,31 +1,46 @@
----
-  on:
-    push:
-      branches: [main, master, develop]
+name: Deploy Helm Charts
 
-  jobs:
-    build:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
+on:
+  push:
+    branches: ['*']
 
-        - run: ls -la
-        - run: pwd
-        - run: git version
-        - run: helm version
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-        - name: clone manifest repository
-          run: |
-            git config --global user.email "jan@tomasek.cz"
-            git config --global user.name "Jan Tomášek"
-            git clone https://${{ secrets.PAT }}@github.com/semik/push-test.git
+      - run: ls -la
+      - run: pwd
+      - run: git version
+      - run: helm version
+      - run: echo "Running on branch:" $GITHUB_REF_NAME
 
-        - name: generate manifests and push it into repo
-          run: |
-            helm template -n czertainly-example --values=values.yaml --version=0.0.0 oci://harbor.3key.company/czertainly-helm/czertainly > push-test/czertainly.yaml
-            cd push-test
-            git add -A
+      - name: clone manifest repository
+        run: |
+          git config --global user.email "jan@tomasek.cz"
+          git config --global user.name "Jan Tomášek"
+          git clone https://${{ secrets.PAT }}@github.com/semik/push-test.git
+          cd push-test
+
+          if ! git rev-parse --verify "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
+            # Create the new branch from main if it doesn't exist
+            git checkout -b "${GITHUB_REF_NAME}" origin/main
+          else
+            git checkout "${GITHUB_REF_NAME}"
+          fi
+
+      - name: generate manifests and push it into repo
+        run: |
+          helm dependency build
+          helm template -n czertainly-example --values=values-shared.yaml --values=values-"${GITHUB_REF_NAME}".yaml . > push-test/manifests.yaml
+          cd push-test
+          git add -A
+          if ! git diff --cached --quiet; then
             git commit -m "automatic rebuild from repo ${{ github.repository }} ${{ github.sha }}"
             git push
-            ls -l .
+          else
+            echo "No changes to commit"
+          fi
+          ls -l .

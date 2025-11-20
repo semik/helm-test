@@ -1,0 +1,8 @@
+czertainly:
+  global:
+    database:
+      host: "develop-db.3key.company"
+      name: "develop-example_czertainly"
+      username: "develop-example_czertainly"
+      password: "heslo123"
+    hostName: "semik66a.3key.company"
