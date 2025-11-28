@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: messaging-service
+  name: data-messaging-statefulset-0
+  namespace: appsec-pkife-dev
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+  # volumeMode: Filesystem
+  storageClassName: nfs-client
+  volumeMode: Filesystem
+  volumeName: appsec-pkife-data-messaging-pv

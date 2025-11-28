@@ -2,7 +2,7 @@ name: Deploy Helm Charts
 
 on:
   push:
-    branches: ['*']
+    branches: ['develop', 'acceptance', 'prod']
 
 jobs:
   build:
@@ -29,6 +29,7 @@ jobs:
       - name: generate manifests and push it into repo
         run: |
           helm dependency build
+          # TODO move namamespace to some variable
           helm template -n czertainly-example --values=values-shared.yaml --values=values-"${GITHUB_REF_NAME}".yaml . > push-test/manifests.yaml
           cd push-test
           git add -A
