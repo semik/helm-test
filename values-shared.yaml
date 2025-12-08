@@ -433,3 +433,10 @@ czertainly:
 
   emailNotificationProvider:
     enabled: false
+
+  messagingService:
+    persistence:
+      existingClaim: data-semik-tst
+      enabled: true
+    podSecurityContext:
+      fsGroup: null
