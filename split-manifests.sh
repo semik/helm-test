@@ -27,7 +27,7 @@ fi
 
 mkdir -p "$TARGET_DIR"
 
-awk -v outdir="$TARGET_DIR" '
+tr -d '\r' < "$INPUT_FILE" | awk -v outdir="$TARGET_DIR" '
   function sanitize(str) {
     gsub("[^a-zA-Z0-9_-]", "_", str)
     return str
@@ -87,4 +87,4 @@ awk -v outdir="$TARGET_DIR" '
       write_manifest(saved_count, kind, name, outdir)
     }
   }
-' "$INPUT_FILE"
+'
