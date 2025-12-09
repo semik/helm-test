@@ -32,45 +32,61 @@ awk -v outdir="$TARGET_DIR" '
     gsub("[^a-zA-Z0-9_-]", "_", str)
     return str
   }
-  function flush() {
-    if (file_open) {
-      close(outfile)
-      file_open=0
-    }
+  function write_manifest(lines, kind, name, outdir) {
+    kind = kind ? sanitize(kind) : "unknown"
+    name = name ? sanitize(name) : "unnamed"
+    file = outdir "/" kind "-" name ".yaml"
+    for (i=1; i<=lines; i++)
+      print saved[i] > file
+    close(file)
   }
   BEGIN {
-    kind="unknown"; name="unnamed"; in_metadata=0; file_open=0;
+    in_metadata = 0
+    kind = ""
+    name = ""
+    saved_count = 0
+    manifest_num = 0
   }
-  /^---/ {
-    flush(); kind="unknown"; name="unnamed"; in_metadata=0; next;
-  }
-  /^[ ]*kind:[ ]*/ {
-    # kind can be: kind: Something or kind: "Something"
-    sub(/^[ ]*kind:[ ]*"?/, "", $0)
-    sub(/"$/, "", $0)
-    kind=sanitize($0)
-    next
-  }
-  /^[ ]*metadata:[ ]*$/ {
-    in_metadata=1
-    next
-  }
-  (in_metadata && /^[ ]*name:[ ]*/) {
-    # name can be: name: foo or name: "foo"
-    sub(/^[ ]*name:[ ]*"?/, "", $0)
-    sub(/"$/, "", $0)
-    name=sanitize($0)
-    in_metadata=0
-    next
-  }
-  NF {
-    if (!file_open) {
-      outfile = sprintf("%s/%s-%s.yaml", outdir, kind, name)
-      file_open=1
+  /^---[ \t]*$/ {
+    if (saved_count > 0) {
+      write_manifest(saved_count, kind, name, outdir)
+      kind = ""
+      name = ""
+      saved_count = 0
+      in_metadata = 0
     }
-    print >> outfile
+    next
   }
-  END { flush() }
+  {
+    saved_count++
+    saved[saved_count] = $0
+    # Detect "kind:"
+    if ($0 ~ /^[ ]*kind:[ ]*/) {
+      sub(/^[ ]*kind:[ ]*"?/, "", $0)
+      sub(/"$/, "", $0)
+      kind = $0
+    }
+    # Detect "metadata:" block
+    else if ($0 ~ /^[ ]*metadata:[ ]*$/) {
+      in_metadata = 1
+    }
+    # Detect "name:" under metadata
+    else if (in_metadata && $0 ~ /^[ ]*name:[ ]*/) {
+      sub(/^[ ]*name:[ ]*"?/, "", $0)
+      sub(/"$/, "", $0)
+      name = $0
+      in_metadata = 0
+    }
+    # If not under metadata, reset flag
+    else if ($0 !~ /^[ ]/ && in_metadata) {
+      in_metadata = 0
+    }
+  }
+  END {
+    if (saved_count > 0) {
+      write_manifest(saved_count, kind, name, outdir)
+    }
+  }
 ' "$INPUT_FILE"
 
 echo "Split $INPUT_FILE into $TARGET_DIR/{kind}-{name}.yaml files."
