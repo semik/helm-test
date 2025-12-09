@@ -36,8 +36,12 @@ awk -v outdir="$TARGET_DIR" '
     kind = kind ? sanitize(kind) : "unknown"
     name = name ? sanitize(name) : "unnamed"
     file = outdir "/" kind "-" name ".yaml"
-    for (i=1; i<=lines; i++)
+    print "Writing file: " file > "/dev/stderr"
+    for (i=1; i<=lines; i++) {
+      if (saved[i] ~ /^# Source:/)
+        continue
       print saved[i] > file
+    }
     close(file)
   }
   BEGIN {
@@ -60,24 +64,20 @@ awk -v outdir="$TARGET_DIR" '
   {
     saved_count++
     saved[saved_count] = $0
-    # Detect "kind:"
     if ($0 ~ /^[ ]*kind:[ ]*/) {
       sub(/^[ ]*kind:[ ]*"?/, "", $0)
       sub(/"$/, "", $0)
       kind = $0
     }
-    # Detect "metadata:" block
     else if ($0 ~ /^[ ]*metadata:[ ]*$/) {
       in_metadata = 1
     }
-    # Detect "name:" under metadata
     else if (in_metadata && $0 ~ /^[ ]*name:[ ]*/) {
       sub(/^[ ]*name:[ ]*"?/, "", $0)
       sub(/"$/, "", $0)
       name = $0
       in_metadata = 0
     }
-    # If not under metadata, reset flag
     else if ($0 !~ /^[ ]/ && in_metadata) {
       in_metadata = 0
     }
@@ -88,5 +88,3 @@ awk -v outdir="$TARGET_DIR" '
     }
   }
 ' "$INPUT_FILE"
-
-echo "Split $INPUT_FILE into $TARGET_DIR/{kind}-{name}.yaml files."
