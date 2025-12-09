@@ -22,7 +22,7 @@ done
 
 if [ ! -f "$INPUT_FILE" ]; then
   echo "Input file $INPUT_FILE does not exist!"
-  usage
+  exit 2
 fi
 
 mkdir -p "$TARGET_DIR"
@@ -32,54 +32,45 @@ awk -v outdir="$TARGET_DIR" '
     gsub("[^a-zA-Z0-9_-]", "_", str)
     return str
   }
+  function flush() {
+    if (file_open) {
+      close(outfile)
+      file_open=0
+    }
+  }
   BEGIN {
-    kind="unknown"
-    name="unnamed"
-    file_open=0
+    kind="unknown"; name="unnamed"; in_metadata=0; file_open=0;
   }
   /^---/ {
-    if (file_open) close(outfile)
-    kind="unknown"
-    name="unnamed"
+    flush(); kind="unknown"; name="unnamed"; in_metadata=0; next;
+  }
+  /^[ ]*kind:[ ]*/ {
+    # kind can be: kind: Something or kind: "Something"
+    sub(/^[ ]*kind:[ ]*"?/, "", $0)
+    sub(/"$/, "", $0)
+    kind=sanitize($0)
     next
   }
-  /^kind:/ {
-    # Handles: kind: Deployment
-    kind=$2
-    # or: kind: "Deployment"
-    gsub(/^kind:[ \t"]*/, "", $0)
-    split($0, karr, /[ \t:"]+/)
-    kind=karr[2]
-    kind=sanitize(kind)
-  }
-  /^  name:/ {
-    # Handles:   name: my-app
-    gsub(/^[ \t]*name:[ \t"]*/, "", $0)
-    split($0, narr, /[ \t:"]+/)
-    name=narr[2]
-    name=sanitize(name)
-  }
-  /^metadata:/ {
+  /^[ ]*metadata:[ ]*$/ {
     in_metadata=1
     next
   }
-  (in_metadata && /^  name:/) {
-    gsub(/^[ \t]*name:[ \t"]*/, "", $0)
-    split($0, narr, /[ \t:"]+/)
-    name=narr[2]
-    name=sanitize(name)
+  (in_metadata && /^[ ]*name:[ ]*/) {
+    # name can be: name: foo or name: "foo"
+    sub(/^[ ]*name:[ ]*"?/, "", $0)
+    sub(/"$/, "", $0)
+    name=sanitize($0)
     in_metadata=0
+    next
   }
-  {
+  NF {
     if (!file_open) {
       outfile = sprintf("%s/%s-%s.yaml", outdir, kind, name)
       file_open=1
     }
     print >> outfile
   }
-  END {
-    if (file_open) close(outfile)
-  }
+  END { flush() }
 ' "$INPUT_FILE"
 
 echo "Split $INPUT_FILE into $TARGET_DIR/{kind}-{name}.yaml files."
